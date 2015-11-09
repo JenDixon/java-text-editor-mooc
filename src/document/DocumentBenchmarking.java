@@ -44,20 +44,41 @@ public class DocumentBenchmarking {
 			// file to create both a BasicDocument and an EfficientDocument.  
 			
 			/* Each time through this loop you should:
-			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline)
-			 * 2. Read numToCheck characters from the file into a String
-			 *     Hint: use the helper method below.
-			 * 3. Time a loop that runs trials times (trials is the variable above) that:
+			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline) */
+			
+			System.out.print(numToCheck + "\t");
+			 /* 2. Read numToCheck characters from the file into a String
+			 *     Hint: use the helper method below.*/
+			
+			String line = getStringFromFile(textfile, numToCheck);
+			 /* 3. Time a loop that runs trials times (trials is the variable above) that:
 			 *     a. Creates a BasicDocument 
-			 *     b. Calls fleshScore on this document
-			 * 4. Print out the time it took to complete the loop in step 3 
-			 *      (on the same line as the first print statement) followed by a tab (\t)
-			 * 5. Time a loop that runs trials times (trials is the variable above) that:
+			 *     b. Calls fleshScore on this document*/
+			
+			long starttime = System.nanoTime();
+			BasicDocument doc = new BasicDocument(line);
+			doc.getFleschScore();
+			long endtime = System.nanoTime();
+			
+			 /* 4. Print out the time it took to complete the loop in step 3 
+			 *      (on the same line as the first print statement) followed by a tab (\t) */
+			double esttime = ((endtime - starttime) / 100000000.0);
+			System.out.print(esttime + "\t");
+			
+			 /* 5. Time a loop that runs trials times (trials is the variable above) that:
 			 *     a. Creates an EfficientDocument 
-			 *     b. Calls fleshScore on this document
-			 * 6. Print out the time it took to complete the loop in step 5 
+			 *     b. Calls fleshScore on this document*/
+			
+			long starttimeeff = System.nanoTime();
+			EfficientDocument effdoc = new EfficientDocument(line);
+			effdoc.getFleschScore();
+			long endtimeeff = System.nanoTime();
+			
+			 /* 6. Print out the time it took to complete the loop in step 5 
 			 *      (on the same line as the first print statement) followed by a newline (\n) 
-			 */  
+			 */ 
+			double esttimeeff = ((endtimeeff - starttimeeff) / 100000000.0);
+			System.out.print(esttimeeff + "\n");
 			 
 		}
 	

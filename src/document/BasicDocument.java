@@ -44,7 +44,7 @@ public class BasicDocument extends Document
 	public int getNumSentences()
 	{
 	    List<String> tokens = getTokens("[^!?.]+");	    
-	    System.out.println(tokens.size());	    
+	    //System.out.println(tokens.size());	    
         return tokens.size();
 	}
 	
@@ -102,39 +102,30 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-		int count = 0;
-		int numWords = getNumWords();
+		// We provide for you two solutions: One that uses multiple 
+		// regexs to calculate the number of syllables and the other
+		// that finds words using a loop.  The regex solution is commented 
+		// out here at the top.
 
-		List<String> wordTokens = getTokens("([a-zA-Z]+)");	    
-	    List<String> tokensConstWithoutE = getTokens(("[aeiouyAEIOUY]+"));
-	    
-	    for(int i = 0; i < numWords; i++){
-	    	String word = wordTokens.get(i);
-	    	
-	    	if(word.charAt(word.length() - 1) == 'e' && countVowels(word) > 1 && word.length() > 2 && isVowel(word.charAt(word.length() - 2)) != true){
-		    	count++;
-	    	}
-	    }
-	    
-	    String test ="abc 90iom sktit";
-	    
-	    char[] letters = test.toCharArray();
-	    int n = 0;
-	    
-	    for (int i = 0; i < letters.length; i++) {
-	        if (letters[i] == ' ') {
-	           letters[i] = '_';
-	           n++;
-	        }
-	    }
-	    
-	    System.out.println(n);
-	    System.out.println(letters);
-	    
-		//System.out.println("tokensConstWithoutE " + tokensConstWithoutE);
-		//System.out.println("tokensConstWithoutESize " + tokensConstWithoutE.size());
+		/* Our solution using regex's.  Uncoment here to run it*/
+		/*
+		List<String> tokens = getTokens("[aeiouyAEIOUY]+");
+		List<String> loneEs = getTokens("[^aeiouyAEIOUY]+[eE]\\b");
+		List<String> singleEs = getTokens("\\b[^aeiouyAEIOUY]*[eE]\\b");
 		
-        return tokensConstWithoutE.size() - count;
+		
+		return tokens.size() - (loneEs.size() - singleEs.size());
+		*/
+		
+		/* Our solution that does NOT use regexs to find syllables */
+		List<String> tokens = getTokens("[a-zA-Z]+");
+		int totalSyllables = 0;
+		for (String word : tokens)
+		{
+			totalSyllables += countSyllables(word);
+		}
+		return totalSyllables;
+		
 	}
 	
 	
